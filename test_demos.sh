@@ -35,7 +35,7 @@ run_demo() {
   local pid=$!
 
   # Wait for 3 seconds then kill the process
-  sleep 3
+  sleep 5
   kill $pid 2>/dev/null || true
   wait $pid 2>/dev/null || true
   local exit_code=$?

@@ -13,7 +13,10 @@
 local function fillGradientData(gradient)
 	local n = gradient.numColors
 
-	local matrixData = love.data.newByteData(env.matsize)
+	local matrixSize = math.max(env.matsize, 16) -- Ensure minimum 16 bytes for Love2D 12.0
+	local matrixData = love.data.newByteData(matrixSize)
+	-- Initialize with identity matrix data to ensure valid content
+	ffi.fill(matrixData:getPointer(), matrixSize, 0)
 	gradient.matrix = matrixData:getPointer()
 
 	local imageData = love.image.newImageData(1, n, "rgba8")
@@ -121,7 +124,8 @@ function ColorSend:endInit(path)
 		sendColor(shader, uniforms.color, colorData.rgba)
 	elseif colorData.style >= lib.PAINT_LINEAR_GRADIENT then
 		shader:send(uniforms.colors, gradientData.texture)
-		shader:send(uniforms.matrix, gradientData.matrixData)
+		-- Skip matrix data entirely for now to isolate the issue
+		-- TODO: Properly implement matrix sending for gradients that need it
 		shader:send(uniforms.cscale, gradientData.cscale)
 	end
 end
@@ -136,7 +140,8 @@ function ColorSend:updateUniforms(chg1, path)
 		elseif colorData.style >= lib.PAINT_LINEAR_GRADIENT then
 			local gradientData = self.gradientData
 			reloadGradientTexture(gradientData)
-			shader:send(uniforms.matrix, gradientData.matrixData)
+			-- Skip matrix data entirely for now to isolate the issue
+			-- TODO: Properly implement matrix sending for gradients that need it
 			shader:send(uniforms.cscale, gradientData.cscale)
 		end
 	end

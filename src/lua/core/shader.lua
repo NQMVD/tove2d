@@ -91,8 +91,10 @@ local function newMeshFeedData(name, graphics, tess, usage, resolution)
 		lib.NewColorFeed(graphics._ref, resolution), lib.ReleaseFeed)
 
 	local alloc = lib.FeedGetColorAllocation(link)
-	local matrixData = love.data.newByteData(
-		(1 + alloc.numGradients) * env.matsize)
+	local matrixSize = math.max((1 + alloc.numGradients) * env.matsize, 16) -- Ensure minimum 16 bytes for Love2D 12.0
+	local matrixData = love.data.newByteData(matrixSize)
+	-- Initialize with zero data to ensure valid content
+	ffi.fill(matrixData:getPointer(), matrixSize, 0)
 	local imageData = love.image.newImageData(
 		alloc.numPaints, alloc.numColors, "rgba8")
 	local colorsTexture = lg.newImage(imageData)
