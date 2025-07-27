@@ -21,91 +21,90 @@
 --
 
 local _pt = {
-	x = 0,
-	y = 1
+  x = 0,
+  y = 1
 }
 
 local Point = {}
-Point.__index = function (self, key)
-	return lib.SubpathGetPtValue(self.traj, self.i, _pt[key] or -1)
+Point.__index = function(self, key)
+  return lib.SubpathGetPtValue(self.traj, self.i, _pt[key] or -1)
 end
-Point.__newindex = function (self, key, value)
-	lib.SubpathSetPtValue(self.traj, self.i, _pt[key] or -1, value)
+Point.__newindex = function(self, key, value)
+  lib.SubpathSetPtValue(self.traj, self.i, _pt[key] or -1, value)
 end
 
 local Points = {}
-Points.__index = function (self, i)
-	if i == "count" then
-		return lib.SubpathGetNumPoints(self.traj)
-	else
-		return setmetatable({traj = self.traj, i = self.i0 + i - 1}, Point)
-	end
+Points.__index = function(self, i)
+  if i == "count" then
+    return lib.SubpathGetNumPoints(self.traj)
+  else
+    return setmetatable({ traj = self.traj, i = self.i0 + i - 1 }, Point)
+  end
 end
 
 local Curve = {}
-Curve.__index = function (self, key)
-	if key == "p" then
-		return setmetatable({traj = self.traj, i0 = self.curve * 4}, Points)
-	end
-	local i = _attributes[key]
-	if i == nil then return nil end
-	return lib.SubpathGetCurveValue(
-		self.traj, self.curve, i)
+Curve.__index = function(self, key)
+  if key == "p" then
+    return setmetatable({ traj = self.traj, i0 = self.curve * 4 }, Points)
+  end
+  local i = _attributes[key]
+  if i == nil then return nil end
+  return lib.SubpathGetCurveValue(
+    self.traj, self.curve, i)
 end
-Curve.__newindex = function (self, key, value)
-	local i = _attributes[key]
-	if i == nil then return nil end
-	return lib.SubpathSetCurveValue(
-		self.traj, self.curve, i, value)
+Curve.__newindex = function(self, key, value)
+  local i = _attributes[key]
+  if i == nil then return nil end
+  return lib.SubpathSetCurveValue(
+    self.traj, self.curve, i, value)
 end
 
 function Curve:split(t)
-	lib.SubpathInsertCurveAt(self.traj, self.curve + t)
+  lib.SubpathInsertCurveAt(self.traj, self.curve + t)
 end
 
 function Curve:remove()
-	lib.SubpathRemoveCurve(self.traj, self.curve)
+  lib.SubpathRemoveCurve(self.traj, self.curve)
 end
 
 function Curve:isLine(dir)
-	return lib.SubpathIsLineAt(self.traj, self.curve, dir or 0)
+  return lib.SubpathIsLineAt(self.traj, self.curve, dir or 0)
 end
 
 function Curve:makeFlat(dir)
-	return lib.SubpathMakeFlat(self.traj, self.curve, dir or 0)
+  return lib.SubpathMakeFlat(self.traj, self.curve, dir or 0)
 end
 
 function Curve:makeSmooth(a, dir)
-	return lib.SubpathMakeSmooth(self.traj, self.curve, dir or 0, a or 0.5)
+  return lib.SubpathMakeSmooth(self.traj, self.curve, dir or 0, a or 0.5)
 end
 
-
 local Curves = {}
-Curves.__index = function (self, curve)
-	if curve == "count" then
-		return lib.SubpathGetNumCurves(self.traj)
-	else
-		return setmetatable({traj = self.traj, curve = curve - 1}, Curve)
-	end
+Curves.__index = function(self, curve)
+  if curve == "count" then
+    return lib.SubpathGetNumCurves(self.traj)
+  else
+    return setmetatable({ traj = self.traj, curve = curve - 1 }, Curve)
+  end
 end
 
 
 local Subpath = {}
 Subpath.__index = function(self, key)
-	if key == "curves" then
-		return setmetatable({traj = self}, Curves)
-	elseif key == "points" then
-		return setmetatable({traj = self, i0 = 0}, Points)
-	elseif key == "isClosed" then
-		return lib.SubpathIsClosed(self)
-	else
-		return Subpath[key]
-	end
+  if key == "curves" then
+    return setmetatable({ traj = self }, Curves)
+  elseif key == "points" then
+    return setmetatable({ traj = self, i0 = 0 }, Points)
+  elseif key == "isClosed" then
+    return lib.SubpathIsClosed(self)
+  else
+    return Subpath[key]
+  end
 end
 Subpath.__newindex = function(self, key, value)
-	if key == "isClosed" then
-		lib.SubpathSetIsClosed(self, value)
-	end
+  if key == "isClosed" then
+    lib.SubpathSetIsClosed(self, value)
+  end
 end
 
 --- Evaluate position at t.
@@ -116,8 +115,8 @@ end
 -- @treturn number y position
 
 function Subpath:position(t)
-	local v = lib.SubpathGetPosition(self, t)
-	return v.x, v.y
+  local v = lib.SubpathGetPosition(self, t)
+  return v.x, v.y
 end
 
 --- Evaluate normal at t.
@@ -128,8 +127,8 @@ end
 -- @treturn number y component of normal
 
 function Subpath:normal(t)
-	local v = lib.SubpathGetNormal(self, t)
-	return v.x, v.y
+  local v = lib.SubpathGetNormal(self, t)
+  return v.x, v.y
 end
 
 --- Find nearest point.
@@ -141,8 +140,8 @@ end
 -- @treturn number distance distance at given t
 
 function Subpath:nearest(x, y, dmax, dmin)
-	local n = lib.SubpathNearest(self, x, y, dmin or 1e-4, dmax or 1e50)
-	return n.t, math.sqrt(n.distanceSquared)
+  local n = lib.SubpathNearest(self, x, y, dmin or 1e-4, dmax or 1e50)
+  return n.t, math.sqrt(n.distanceSquared)
 end
 
 Subpath.insertCurveAt = lib.SubpathInsertCurveAt
@@ -196,12 +195,12 @@ Subpath.lineTo = lib.SubpathLineTo
 Subpath.curveTo = lib.SubpathCurveTo
 
 local handles = {
-	free = lib.TOVE_HANDLE_FREE,
-	aligned = lib.TOVE_HANDLE_ALIGNED
+  free = lib.TOVE_HANDLE_FREE,
+  aligned = lib.TOVE_HANDLE_ALIGNED
 }
 
 function Subpath:move(k, x, y, h)
-	lib.SubpathMove(self, k, x, y, h and handles[h] or lib.TOVE_HANDLE_FREE)
+  lib.SubpathMove(self, k, x, y, h and handles[h] or lib.TOVE_HANDLE_FREE)
 end
 
 --- Draw an arc.
@@ -214,7 +213,7 @@ end
 -- @function arc
 
 function Subpath:arc(x, y, r, a1, a2, ccw)
-	lib.SubpathArc(self, x, y, r, a1, a2, ccw or false)
+  lib.SubpathArc(self, x, y, r, a1, a2, ccw or false)
 end
 
 --- Draw a rectangle.
@@ -228,8 +227,8 @@ end
 -- @function drawRect
 
 function Subpath:drawRect(x, y, w, h, rx, ry)
-	return newCommand(self, lib.SubpathDrawRect(
-		self, x, y, w, h or w, rx or 0, ry or 0))
+  return newCommand(self, lib.SubpathDrawRect(
+    self, x, y, w, h or w, rx or 0, ry or 0))
 end
 
 --- Draw a circle.
@@ -239,8 +238,8 @@ end
 -- @treturn Command circle command
 
 function Subpath:drawCircle(x, y, r)
-	return newCommand(self, lib.SubpathDrawEllipse(
-		self, x, y, r, r))
+  return newCommand(self, lib.SubpathDrawEllipse(
+    self, x, y, r, r))
 end
 
 --- Draw an ellipse.
@@ -251,34 +250,34 @@ end
 -- @treturn Command ellipse command
 
 function Subpath:drawEllipse(x, y, rx, ry)
-	return newCommand(self, lib.SubpathDrawEllipse(
-		self, x, y, rx, ry or rx))
+  return newCommand(self, lib.SubpathDrawEllipse(
+    self, x, y, rx, ry or rx))
 end
 
 function Subpath:isLineAt(k, dir)
-	return lib.SubpathIsLineAt(self, k, dir or 0)
+  return lib.SubpathIsLineAt(self, k, dir or 0)
 end
 
 function Subpath:makeFlat(k, dir)
-	return lib.SubpathMakeFlat(self, k, dir or 0)
+  return lib.SubpathMakeFlat(self, k, dir or 0)
 end
 
 function Subpath:makeSmooth(k, a, dir)
-	return lib.SubpathMakeSmooth(self, k, dir or 0, a or 0.5)
+  return lib.SubpathMakeSmooth(self, k, dir or 0, a or 0.5)
 end
 
 function Subpath:set(arg)
-	if getmetatable(arg) == tove.Transform then
-		lib.SubpathSet(
-			self,
-			arg.s,
-			unpack(arg.args))
-	else
-		lib.SubpathSet(
-			self,
-			arg,
-			1, 0, 0, 0, 1, 0)
-	end
+  if getmetatable(arg) == tove.Transform then
+    lib.SubpathSet(
+      self,
+      arg.s,
+      unpack(arg.args))
+  else
+    lib.SubpathSet(
+      self,
+      arg,
+      1, 0, 0, 0, 1, 0)
+  end
 end
 
 --- Transform this @{Subpath}.
@@ -297,7 +296,7 @@ end
 -- @see Path:transform
 
 function Subpath:transform(...)
-	self:set(tove.transformed(self, ...))
+  self:set(tove.transformed(self, ...))
 end
 
 --- Invert.
@@ -305,20 +304,20 @@ end
 -- create holes in a @{Path}.
 
 function Subpath:invert()
-	lib.SubpathInvert(self)
+  lib.SubpathInvert(self)
 end
 
 --- Set points.
 -- @tparam {number,number,...} points x and y coordinates of points to set
 
 function Subpath:setPoints(...)
-	local p = {...}
-	local n = #p
-	local f = ffi.new("float[?]", n)
-	for i = 1, n do
-		f[i - 1] = p[i]
-	end
-	lib.SubpathSetPoints(self, f, n / 2)
+  local p = { ... }
+  local n = #p
+  local f = ffi.new("float[?]", n)
+  for i = 1, n do
+    f[i - 1] = p[i]
+  end
+  lib.SubpathSetPoints(self, f, n / 2)
 end
 
 --- Warp.
@@ -326,19 +325,19 @@ end
 -- @see Graphics:warp
 
 function Subpath:warp(f)
-	local c = lib.SubpathSaveCurvature(self)
-	local n = lib.SubpathGetNumPoints(self)
-	local p = lib.SubpathGetPointsPtr(self)
-	local j = 0
-	for i = 0, n - 1, 3 do
-		x, y, curvature = f(p[2 * i + 0], p[2 * i + 1], c[j].curvature)
-		p[2 * i + 0] = x
-		p[2 * i + 1] = y
-		if curvature ~= nil then c[j].curvature = curvature end
-		j = j + 1
-	end
-	lib.SubpathFixLoop(self)
-	lib.SubpathRestoreCurvature(self)
+  local c = lib.SubpathSaveCurvature(self)
+  local n = lib.SubpathGetNumPoints(self)
+  local p = lib.SubpathGetPointsPtr(self)
+  local j = 0
+  for i = 0, n - 1, 3 do
+    x, y, curvature = f(p[2 * i + 0], p[2 * i + 1], c[j].curvature)
+    p[2 * i + 0] = x
+    p[2 * i + 1] = y
+    if curvature ~= nil then c[j].curvature = curvature end
+    j = j + 1
+  end
+  lib.SubpathFixLoop(self)
+  lib.SubpathRestoreCurvature(self)
 end
 
 ffi.metatype("ToveSubpathRef", Subpath)
@@ -348,14 +347,14 @@ ffi.metatype("ToveSubpathRef", Subpath)
 -- @treturn Subpath new subpath
 
 tove.newSubpath = function(t)
-	local self = ffi.gc(lib.NewSubpath(), lib.ReleaseSubpath)
-	if type(t) == "table" and t.points ~= nil then
-		self:setPoints(unpack(t.points))
-		self.isClosed = t.closed
-	elseif type(t) == "table" and #t > 0 then
-		self:setPoints(unpack(t))
-	end
-	return self
+  local self = ffi.gc(lib.NewSubpath(), lib.ReleaseSubpath)
+  if type(t) == "table" and t.points ~= nil then
+    self:setPoints(unpack(t.points))
+    self.isClosed = t.closed
+  elseif type(t) == "table" and #t > 0 then
+    self:setPoints(unpack(t))
+  end
+  return self
 end
 
 --- Clone.
@@ -363,23 +362,23 @@ end
 -- @treturn Subpath cloned subpath
 
 function Subpath:clone()
-	return lib.CloneSubpath(self)
+  return lib.CloneSubpath(self)
 end
 
 function Subpath:serialize()
-	local n = lib.SubpathGetNumPoints(self)
-	local p = lib.SubpathGetPointsPtr(self)
-	local q = {}
-	if self.isClosed then
-		n = n - 1
-	end
-	for i = 1, n * 2 do
-		q[i] = p[i - 1]
-	end
-	return {
-		points = q,
-		closed = self.isClosed
-	}
+  local n = lib.SubpathGetNumPoints(self)
+  local p = lib.SubpathGetPointsPtr(self)
+  local q = {}
+  if self.isClosed then
+    n = n - 1
+  end
+  for i = 1, n * 2 do
+    q[i] = p[i - 1]
+  end
+  return {
+    points = q,
+    closed = self.isClosed
+  }
 end
 
 return Subpath

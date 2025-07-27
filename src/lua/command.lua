@@ -17,7 +17,7 @@
 
 --- width
 -- @usage
--- 
+--
 -- local graphics = tove.newGraphics()
 -- graphics:setFillColor(1, 1, 1)
 -- local rect = graphics:drawRect(0, 0, 10, 10)
@@ -80,22 +80,22 @@
 
 local Command = {}
 Command.__index = function(self, key)
-	local a = _attributes[key]
-	if a ~= nil then
-		return lib.SubpathGetCommandValue(self._t, self._c, a)
-	else
-		return Command[key]
-	end
+  local a = _attributes[key]
+  if a ~= nil then
+    return lib.SubpathGetCommandValue(self._t, self._c, a)
+  else
+    return Command[key]
+  end
 end
 Command.__newindex = function(self, key, value)
-	lib.SubpathSetCommandValue(
-		rawget(self, "_t"), rawget(self, "_c"), _attributes[key], value)
+  lib.SubpathSetCommandValue(
+    rawget(self, "_t"), rawget(self, "_c"), _attributes[key], value)
 end
 
 function Command:commit()
-	lib.SubpathCommit(self._t)
+  lib.SubpathCommit(self._t)
 end
 
 return function(trajectory, command)
-	return setmetatable({_t = trajectory, _c = command}, Command)
+  return setmetatable({ _t = trajectory, _c = command }, Command)
 end

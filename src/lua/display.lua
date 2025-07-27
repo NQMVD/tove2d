@@ -64,7 +64,7 @@
 
 --- Create an adaptive tesselator.
 -- Use this for high quality static graphics content that does not animate its shape in realtime.
--- Adaptive Tesselators create meshes that give more subdivision (i.e. points and triangles) to areas where 
+-- Adaptive Tesselators create meshes that give more subdivision (i.e. points and triangles) to areas where
 -- higher detail is needed (curvy areas), whereas other areas (straight lines) might get less subdivision
 -- and need less points. The number of vertices produced by
 -- Adaptive Tesselators depends on the specific geometry. They are not suited for shape animation, as each shape
@@ -81,4 +81,3 @@
 -- @function tove.newRigidTesselator
 -- @tparam int subdivisions number of recursive subdivisions; 3 means 2^3=8 points for each bezier curve,
 -- 4 indicates 2^4=16 points, and so on.
-

@@ -38,12 +38,12 @@ vec2 at(vec4 bx, vec4 by, float t) {
 }*/
 
 vec2 normal(vec4 bx, vec4 by, float t) {
-	vec3 c_dt = vec3(3 * t * t, 2 * t, 1);
-	vec2 tangent = vec2(dot(bx.xyz, c_dt), dot(by.xyz, c_dt));
-	if (dot(tangent, tangent) < 1e-2) {
-		tangent = at(bx, by, t + 1e-2) - at(bx, by, t - 1e-2);
-	}
-	return normalize(vec2(-tangent.y, tangent.x));
+    vec3 c_dt = vec3(3 * t * t, 2 * t, 1);
+    vec2 tangent = vec2(dot(bx.xyz, c_dt), dot(by.xyz, c_dt));
+    if (dot(tangent, tangent) < 1e-2) {
+        tangent = at(bx, by, t + 1e-2) - at(bx, by, t - 1e-2);
+    }
+    return normalize(vec2(-tangent.y, tangent.x));
 }
 
 vec2 drawjoin(vec4 mesh_position) {
@@ -52,15 +52,15 @@ vec2 drawjoin(vec4 mesh_position) {
     vec2 ty = (vec2(curve0, curve1) + vec2(curve_index)) / vec2(max_curves);
 
     vec4 bx0 = Texel(curves,
-        vec2(0.0f / float(CURVE_DATA_SIZE), ty.x));
+            vec2(0.0f / float(CURVE_DATA_SIZE), ty.x));
     vec4 by0 = Texel(curves,
-        vec2(1.0f / float(CURVE_DATA_SIZE), ty.x));
+            vec2(1.0f / float(CURVE_DATA_SIZE), ty.x));
     vec2 n10 = normal(bx0, by0, 1.0f);
 
     vec4 bx1 = Texel(curves,
-        vec2(0.0f / float(CURVE_DATA_SIZE), ty.y));
+            vec2(0.0f / float(CURVE_DATA_SIZE), ty.y));
     vec4 by1 = Texel(curves,
-        vec2(1.0f / float(CURVE_DATA_SIZE), ty.y));
+            vec2(1.0f / float(CURVE_DATA_SIZE), ty.y));
     vec2 n21 = normal(bx1, by1, 0.0f);
 
     float wind = sign(-n21.y * n10.x - n21.x * -n10.y);
@@ -96,9 +96,9 @@ vec2 drawline(vec4 mesh_position) {
     float curveTY = curve / float(max_curves);
 
     vec4 bx = Texel(curves,
-        vec2(0.0f / float(CURVE_DATA_SIZE), curveTY));
+            vec2(0.0f / float(CURVE_DATA_SIZE), curveTY));
     vec4 by = Texel(curves,
-        vec2(1.0f / float(CURVE_DATA_SIZE), curveTY));
+            vec2(1.0f / float(CURVE_DATA_SIZE), curveTY));
 
     vec2 n = normal(bx, by, t);
     vec2 p = at(bx, by, t);
@@ -111,14 +111,14 @@ vec4 do_vertex(vec4 mesh_position) {
 
     switch (draw_mode) {
         case 0:
-            q = drawline(mesh_position);
-            break;
+        q = drawline(mesh_position);
+        break;
         case 1:
-            q = drawjoin(mesh_position);
-            break;
+        q = drawjoin(mesh_position);
+        break;
         default:
-            q = mesh_position.xy;
-            break;
+        q = mesh_position.xy;
+        break;
     }
 
     raw_vertex_pos = q;

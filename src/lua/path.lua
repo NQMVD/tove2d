@@ -20,23 +20,23 @@
 -- @table[readonly] id
 
 local Subpaths = {}
-Subpaths.__index = function (self, i)
-	if i == "count" then
-		return lib.PathGetNumSubpaths(self.path)
-	else
-		return ffi.gc(lib.PathGetSubpath(self.path, i), lib.ReleaseSubpath)
-	end
+Subpaths.__index = function(self, i)
+  if i == "count" then
+    return lib.PathGetNumSubpaths(self.path)
+  else
+    return ffi.gc(lib.PathGetSubpath(self.path, i), lib.ReleaseSubpath)
+  end
 end
 
 local Path = {}
-Path.__index = function (path, key)
-	if key == "subpaths" then
-		return setmetatable({path = path}, Subpaths)
-	elseif key == "id" then
-		return ffi.string(lib.PathGetId(path))
-	else
-		return Path[key]
-	end
+Path.__index = function(path, key)
+  if key == "subpaths" then
+    return setmetatable({ path = path }, Subpaths)
+  elseif key == "id" then
+    return ffi.string(lib.PathGetId(path))
+  else
+    return Path[key]
+  end
 end
 
 --- Create a deep copy.
@@ -117,7 +117,7 @@ Path.inside = lib.PathIsInside
 Path.refine = lib.PathRefine
 
 function Path:beginSubpath()
-	return ffi.gc(lib.PathBeginSubpath(self), lib.ReleaseSubpath)
+  return ffi.gc(lib.PathBeginSubpath(self), lib.ReleaseSubpath)
 end
 
 --- Add a @{Subpath}.
@@ -125,23 +125,23 @@ end
 -- @tparam Subpath t @{Subpath} to append
 
 function Path:addSubpath(t)
-	lib.PathAddSubpath(self, t)
+  lib.PathAddSubpath(self, t)
 end
 
 --- Remove a @{Subpath}.
 -- @tparam Subpath t @{Subpath} to be removed from Path
 
 function Path:removeSubpath(t)
-	lib.PathRemoveSubpath(self, t)
+  lib.PathRemoveSubpath(self, t)
 end
 
 --- Move to position (x, y).
--- Automatically starts a fresh @{Subpath} if necessary. 
+-- Automatically starts a fresh @{Subpath} if necessary.
 -- @tparam number x new x coordinate
 -- @tparam number y new y coordinate
 
 function Path:moveTo(x, y)
-	lib.SubpathMoveTo(self:beginSubpath(), x, y)
+  lib.SubpathMoveTo(self:beginSubpath(), x, y)
 end
 
 --- Draw a line to (x, y).
@@ -152,7 +152,7 @@ end
 -- @tparam number y y coordinate of line's end position
 
 function Path:lineTo(x, y)
-	lib.SubpathLineTo(self:beginSubpath(), x, y)
+  lib.SubpathLineTo(self:beginSubpath(), x, y)
 end
 
 --- Draw a cubic bezier curve to (x, y).
@@ -168,21 +168,21 @@ end
 -- @tparam number y y coordinate of curve's end position (P3)
 
 function Path:curveTo(...)
-	lib.SubpathCurveTo(self:beginSubpath(), ...)
+  lib.SubpathCurveTo(self:beginSubpath(), ...)
 end
 
 --- Get fill color.
 -- @treturn Paint current fill color, or nil if there is no fill
 
 function Path:getFillColor()
-	return Paint._fromRef(lib.PathGetFillColor(self))
+  return Paint._fromRef(lib.PathGetFillColor(self))
 end
 
 --- Get line color.
 -- @treturn Paint current line color, or nil if there is no line
 
 function Path:getLineColor()
-	return Paint._fromRef(lib.PathGetLineColor(self))
+  return Paint._fromRef(lib.PathGetLineColor(self))
 end
 
 --- Set fill color.
@@ -196,7 +196,7 @@ end
 -- @tparam[optchain=1] number a alpha
 
 function Path:setFillColor(r, g, b, a)
-	lib.PathSetFillColor(self, Paint._wrap(r, g, b, a))
+  lib.PathSetFillColor(self, Paint._wrap(r, g, b, a))
 end
 
 --- Set line color.
@@ -207,7 +207,7 @@ end
 -- @tparam[optchain=1] number a alpha
 
 function Path:setLineColor(r, g, b, a)
-	lib.PathSetLineColor(self, Paint._wrap(r, g, b, a))
+  lib.PathSetLineColor(self, Paint._wrap(r, g, b, a))
 end
 
 --- Animate between two @{Path}s.
@@ -218,7 +218,7 @@ end
 -- @see Graphics:animate
 
 function Path:animate(a, b, t)
-	lib.PathAnimate(self, a, b, t)
+  lib.PathAnimate(self, a, b, t)
 end
 
 --- Warp points.
@@ -226,10 +226,10 @@ end
 -- @see Graphics:warp
 
 function Path:warp(f)
-	local subpaths = self.subpaths
-	for i = 1, subpaths.count do
-		subpaths[i]:warp(f)
-	end
+  local subpaths = self.subpaths
+  for i = 1, subpaths.count do
+    subpaths[i]:warp(f)
+  end
 end
 
 --- Rotate elements.
@@ -240,7 +240,7 @@ end
 -- @see Graphics:rotate
 
 function Path:rotate(w, k)
-	lib.PathRotate(self, tove.elements[w], k)
+  lib.PathRotate(self, tove.elements[w], k)
 end
 
 --- Find nearest point.
@@ -254,31 +254,31 @@ end
 -- @see Subpath:nearest
 
 function Path:nearest(x, y, max, min)
-	local n = lib.PathGetNumSubpaths(self)
-	local subpaths = self.subpaths
-	for i = 1, n do
-		local traj = subpaths[i]
-		local t, d = traj:nearest(x, y, max, min)
-		if t >= 0 then
-			return d, t, traj
-		end
-	end
-	return false
+  local n = lib.PathGetNumSubpaths(self)
+  local subpaths = self.subpaths
+  for i = 1, n do
+    local traj = subpaths[i]
+    local t, d = traj:nearest(x, y, max, min)
+    if t >= 0 then
+      return d, t, traj
+    end
+  end
+  return false
 end
 
 function Path:set(arg, swl)
-	if getmetatable(arg) == tove.Transform then
-		lib.PathSet(
-			self,
-			arg.s,
-			swl or false,
-			unpack(arg.args))
-	else
-		lib.PathSet(
-			self,
-			arg,
-			false, 1, 0, 0, 0, 1, 0)
-	end
+  if getmetatable(arg) == tove.Transform then
+    lib.PathSet(
+      self,
+      arg.s,
+      swl or false,
+      unpack(arg.args))
+  else
+    lib.PathSet(
+      self,
+      arg,
+      false, 1, 0, 0, 0, 1, 0)
+  end
 end
 
 -- @set no_summary=true
@@ -299,7 +299,7 @@ end
 -- @set no_summary=false
 
 function Path:transform(...)
-	self:set(tove.transformed(self, ...))
+  self:set(tove.transformed(self, ...))
 end
 
 --- Get line join.
@@ -307,7 +307,7 @@ end
 -- @see setLineJoin
 
 function Path:getLineJoin()
-	return findEnum(tove.lineJoins, lib.PathGetLineJoin(self))
+  return findEnum(tove.lineJoins, lib.PathGetLineJoin(self))
 end
 
 --- Set line join.
@@ -315,7 +315,7 @@ end
 -- @see getLineJoin
 
 function Path:setLineJoin(join)
-	lib.PathSetLineJoin(self, tove.lineJoins[join])
+  lib.PathSetLineJoin(self, tove.lineJoins[join])
 end
 
 --- Get line cap.
@@ -323,7 +323,7 @@ end
 -- @see setLineCap
 
 function Path:getLineCap()
-	return findEnum(tove.lineCaps, lib.PathGetLineCap(self))
+  return findEnum(tove.lineCaps, lib.PathGetLineCap(self))
 end
 
 --- Set line cap.
@@ -331,7 +331,7 @@ end
 -- @see getLineCap
 
 function Path:setLineCap(cap)
-	lib.PathSetLineCap(self, tove.lineCaps[cap])
+  lib.PathSetLineCap(self, tove.lineCaps[cap])
 end
 
 --- Get fill rule.
@@ -339,7 +339,7 @@ end
 -- @see setFillRule
 
 function Path:getFillRule()
-	return findEnum(tove.fillRules, lib.PathGetFillRule(self))
+  return findEnum(tove.fillRules, lib.PathGetFillRule(self))
 end
 
 --- Set fill rule.
@@ -349,69 +349,69 @@ end
 -- @see getFillRule
 
 function Path:setFillRule(rule)
-	lib.PathSetFillRule(self, tove.fillRules[rule])
+  lib.PathSetFillRule(self, tove.fillRules[rule])
 end
 
 function Path:serialize()
-	local subpaths = self.subpaths
-	local s = {}
-	for i = 1, subpaths.count do
-		s[i] = subpaths[i]:serialize()
-	end
-	local line = nil
-	local lineColor = self:getLineColor()
-	if lineColor then
-		line = {
-			paint = lineColor:serialize(),
-			join = self:getLineJoin(),
-			miter = self:getMiterLimit(),
-			width = self:getLineWidth()
-		}
-	end
-	local fill = nil
-	local fillColor = self:getFillColor()
-	if fillColor then
-		fill = {
-			paint = fillColor:serialize(),
-			rule = self:getFillRule()
-		}
-	end
-	local opacity = self:getOpacity()
-	return {
-		line = line,
-		fill = fill,
-		opacity = opacity < 1 and opacity or nil,
-		subpaths = s
-	}
+  local subpaths = self.subpaths
+  local s = {}
+  for i = 1, subpaths.count do
+    s[i] = subpaths[i]:serialize()
+  end
+  local line = nil
+  local lineColor = self:getLineColor()
+  if lineColor then
+    line = {
+      paint = lineColor:serialize(),
+      join = self:getLineJoin(),
+      miter = self:getMiterLimit(),
+      width = self:getLineWidth()
+    }
+  end
+  local fill = nil
+  local fillColor = self:getFillColor()
+  if fillColor then
+    fill = {
+      paint = fillColor:serialize(),
+      rule = self:getFillRule()
+    }
+  end
+  local opacity = self:getOpacity()
+  return {
+    line = line,
+    fill = fill,
+    opacity = opacity < 1 and opacity or nil,
+    subpaths = s
+  }
 end
 
 function Path:deserialize(t)
-	for _, s in ipairs(t.subpaths) do
-		self:addSubpath(tove.newSubpath(s))
-	end
-	if t.line then
-		self:setLineColor(tove.newPaint(t.line.paint))
-		self:setLineJoin(t.line.join)
-		self:setMiterLimit(t.line.miter)
-		self:setLineWidth(t.line.width)
-	end
-	if t.fill then
-		self:setFillColor(tove.newPaint(t.fill.paint))
-		self:setFillRule(t.fill.rule)
-	end
-	self:setOpacity(t.opacity or 1)
+  for _, s in ipairs(t.subpaths) do
+    self:addSubpath(tove.newSubpath(s))
+  end
+  if t.line then
+    self:setLineColor(tove.newPaint(t.line.paint))
+    self:setLineJoin(t.line.join)
+    self:setMiterLimit(t.line.miter)
+    self:setLineWidth(t.line.width)
+  end
+  if t.fill then
+    self:setFillColor(tove.newPaint(t.fill.paint))
+    self:setFillRule(t.fill.rule)
+  end
+  self:setOpacity(t.opacity or 1)
 end
 
 ffi.metatype("TovePathRef", Path)
 
 tove.newPath = function(data)
-	local t = type(data)
-	local p = ffi.gc(lib.NewPath(
-		t == "string" and data or nil), lib.ReleasePath)
-	if t == "table" then
-		p:deserialize(data)
-	end
-	return p
+  local t = type(data)
+  local p = ffi.gc(lib.NewPath(
+    t == "string" and data or nil), lib.ReleasePath)
+  if t == "table" then
+    p:deserialize(data)
+  end
+  return p
 end
 
 return Path
