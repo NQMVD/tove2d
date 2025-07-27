@@ -2,7 +2,7 @@
 -- (C) 2018 Bernhard Liebl, MIT license.
 
 local tove = require "tove"
-require "assets/tovedemo"
+require "assets.tovedemo"
 
 -- fill rule example taken from http://tutorials.jenkov.com/svg/fill.html
 local samples = {}

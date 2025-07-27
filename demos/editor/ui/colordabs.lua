@@ -3,7 +3,7 @@
 
 local boxy = require "boxy"
 local class = require "boxy.class"
-local stripedCircle = require "ui/striped"
+local stripedCircle = require "ui.striped"
 
 local ColorDabs = class("ColorDabs", boxy.Widget)
 

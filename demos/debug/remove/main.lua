@@ -1,5 +1,5 @@
 local tove = require "tove"
-require "assets/tovedemo"
+require "assets.tovedemo"
 
 font = tovedemo.newFont(30)
 

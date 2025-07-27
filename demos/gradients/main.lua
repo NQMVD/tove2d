@@ -3,7 +3,7 @@
 
 local tove = require "tove"
 tove.setReportLevel(1) -- 0 = none, 1 = errors, 2 = warnings, 3 = info
-require "assets/tovedemo"
+require "assets.tovedemo"
 
 local flow
 

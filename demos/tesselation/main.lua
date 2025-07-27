@@ -2,7 +2,7 @@
 -- (C) 2018 Bernhard Liebl, MIT license.
 
 local tove = require "tove"
-require "assets/tovedemo"
+require "assets.tovedemo"
 
 local function newInfoText(graphics, quality)
 	return "r " .. string.format("%d", quality) .. " / " ..

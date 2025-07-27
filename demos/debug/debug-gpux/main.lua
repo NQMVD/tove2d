@@ -2,7 +2,7 @@
 -- (C) 2018 Bernhard Liebl, MIT license.
 
 local tove = require "tove"
-require "assets/tovedemo"
+require "assets.tovedemo"
 
 local svg1 = love.filesystem.read("gradient-circle_00001.svg")
 local svg2 = love.filesystem.read("gradient-circle_00002.svg")

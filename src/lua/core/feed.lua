@@ -179,18 +179,18 @@ function MeshBands:createMeshes(fillShader)
 	local data = self.data
 
 	self.meshes[1] = love.graphics.newMesh(
-		{{"VertexPosition", "float", 2}, {"VertexTexCoord", "float", 2}},
+		{{name = "VertexPosition", format = "float", components = 2, location = 0}, {name = "VertexTexCoord", format = "float", components = 2, location = 1}},
 		-- see FLOATS_PER_VERTEX
 		data.maxBandsVertices,
 		"triangles")
 
 	self.meshes[2] = love.graphics.newMesh(
-		{{"VertexPosition", "float", 2}},
+		{{name = "VertexPosition", format = "float", components = 2, location = 0}},
 		data.maxBandsVertices,
 		"triangles")
 
 	self.meshes[3] = love.graphics.newMesh(
-		{{"VertexPosition", "float", 2}, {"VertexTexCoord", "float", 2}},
+		{{name = "VertexPosition", format = "float", components = 2, location = 0}, {name = "VertexTexCoord", format = "float", components = 2, location = 1}},
 		-- see FLOATS_PER_VERTEX
 		data.maxBandsVertices,
 		"triangles")
@@ -203,13 +203,14 @@ function MeshBands:createMeshes(fillShader)
 	end
 
 	return function(...)
-		lg.stencil(drawUnsafeBands, "replace", 1)
+		lg.setStencilMode("replace", 1)
+		drawUnsafeBands(...)
 	
 		lg.setShader(fillShader)
 		lg.draw(self.meshes[1], ...)
-		lg.setStencilTest("greater", 0)
+		lg.setStencilMode("greater", 0)
 		lg.draw(self.meshes[3], ...)
-		lg.setStencilTest()
+		lg.setStencilMode()
 	end
 end
 
@@ -351,15 +352,16 @@ local function makeDrawLine(feed)
 
 	local drawTransparentLine = function(...)
 		local border = geometry.strokeWidth + geometry.miterLimit * 2
-		lg.stencil(drawLine, "replace", 1)
-		lg.setStencilTest("greater", 0)
+		lg.setStencilMode("replace", 1)
+		drawLine(...)
+		lg.setStencilMode("greater", 0)
 		local x0, y0 = bounds.x0, bounds.y0
 		lineShader:send("draw_mode", 2)
 		lg.rectangle("fill",
 			x0 - border, y0 - border,
 			bounds.x1 - x0 + 2 * border,
 			bounds.y1 - y0 + 2 * border)
-		lg.setStencilTest()
+		lg.setStencilMode()
 	end
 	
 	return function(...)
@@ -390,7 +392,7 @@ function GeometrySend:endInit(lineStyle)
 	else
 		if self.bands == nil then
 			local mesh = love.graphics.newMesh(
-				{{"VertexPosition", "float", 2}},
+				{{name = "VertexPosition", format = "float", components = 2, location = 0}},
 				{{0, 0}, {0, 1}, {1, 0}, {1, 1}}, "strip")
 
 			local lg = love.graphics

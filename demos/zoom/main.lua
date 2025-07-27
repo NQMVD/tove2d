@@ -2,7 +2,7 @@
 -- (C) 2018 Bernhard Liebl, MIT license.
 
 local tove = require "tove"
-require "assets/tovedemo"
+require "assets.tovedemo"
 
 local rabbit = love.filesystem.read("assets/monster_by_mike_mac.svg")
 
@@ -55,7 +55,7 @@ function love.draw()
 				love.graphics.stencil(function()
 					love.graphics.rectangle("fill", x0, 100, 200, 400)
 				end, "replace", 1)
-				love.graphics.setStencilTest("greater", 0)
+				love.graphics.setStencilMode("greater", 0)
 			end
 
 			local name
@@ -75,7 +75,7 @@ function love.draw()
 			end
 			love.graphics.pop()
 
-			love.graphics.setStencilTest()
+			love.graphics.setStencilMode()
 
 			if show == "all" then
 				love.graphics.setColor(0, 0, 0)

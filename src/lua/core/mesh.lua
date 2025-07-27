@@ -102,7 +102,7 @@ end
 local PositionMesh = {}
 PositionMesh.__index = PositionMesh
 setmetatable(PositionMesh, {__index = AbstractMesh})
-PositionMesh._attributes = {{"VertexPosition", "float", 2}}
+PositionMesh._attributes = {{name = "VertexPosition", format = "float", components = 2, location = 0}}
 PositionMesh._vertexByteSize = 2 * floatSize
 
 function PositionMesh:getMeshUsage()
@@ -123,8 +123,8 @@ local PaintMesh = {}
 PaintMesh.__index = PaintMesh
 setmetatable(PaintMesh, {__index = AbstractMesh})
 PaintMesh._attributes = {
-	{"VertexPosition", "float", 2},
-	{"VertexPaint", "byte", 4}}
+	{name = "VertexPosition", format = "float", components = 2, location = 0},
+	{name = "VertexPaint", format = "byte", components = 4, location = 1}}
 PaintMesh._vertexByteSize = 3 * floatSize
 
 function PaintMesh:getMeshUsage()
@@ -145,8 +145,8 @@ local ColorMesh = {}
 ColorMesh.__index = ColorMesh
 setmetatable(ColorMesh, {__index = AbstractMesh})
 ColorMesh._attributes = {
-	{"VertexPosition", "float", 2},
-	{"VertexColor", "byte", 4}}
+	{name = "VertexPosition", format = "float", components = 2, location = 0},
+	{name = "VertexColor", format = "byte", components = 4, location = 1}}
 ColorMesh._vertexByteSize = 2 * floatSize + 4
 
 function ColorMesh:getMeshUsage()

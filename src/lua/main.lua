@@ -133,7 +133,7 @@ tove.init = function(path)
 
 	local env = {
 		graphics = love.graphics.getSupported(),
-		rgba16f = love.graphics.getCanvasFormats()["rgba16f"],
+		rgba16f = love.graphics.getTextureFormats()["rgba16f"],
 		matrows = 2 -- number of mat3x2 rows
 	}
 

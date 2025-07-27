@@ -283,7 +283,7 @@ function ColorWheel:__init(opacitySlider)
 	shader:send("radius", radius)
 	shader:send("thickness", thickness)
 
-	local attributes = {{"VertexPosition", "float", 2}, {"VertexTexCoord", "float", 2}}
+	local attributes = {{name = "VertexPosition", format = "float", components = 2, location = 0}, {name = "VertexTexCoord", format = "float", components = 2, location = 1}}
 
 	local pixelsize = size * oversample
 
@@ -341,8 +341,8 @@ function ColorWheel:__init(opacitySlider)
 
 	do
 		local attributes = {
-			{"VertexPosition", "float", 2},
-			{"VertexColor", "float", 3}}
+			{name = "VertexPosition", format = "float", components = 2, location = 0},
+			{name = "VertexColor", format = "float", components = 3, location = 1}}
 		self:computeTriangleVertices()
 		self.triangle = love.graphics.newMesh(
 			attributes, self.triangleVertices, "fan", "dynamic")

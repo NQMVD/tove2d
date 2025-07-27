@@ -7,7 +7,7 @@
 -- enable animation.
 
 local tove = require "tove"
-require "assets/tovedemo"
+require "assets.tovedemo"
 
 -- load both shapes.
 local svg1 = love.filesystem.read("shape1.svg")

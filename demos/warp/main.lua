@@ -7,7 +7,7 @@
 -- enable animation.
 
 local tove = require "tove"
-require "assets/tovedemo"
+require "assets.tovedemo"
 require "tools"
 
 local flow

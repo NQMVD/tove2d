@@ -2,7 +2,7 @@
 -- (C) 2019 Bernhard Liebl, MIT license.
 
 local tove = require "tove"
-require "assets/tovedemo"
+require "assets.tovedemo"
 
 local function newHeart()
 	-- taken from: https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API/Tutorial/Drawing_shapes

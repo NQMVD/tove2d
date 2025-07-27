@@ -7,18 +7,18 @@ os.setlocale("C")
 
 local Object = require "object"
 
-local newTransformWidget = require "tools/transform"
-local newCurvesWidget = require "tools/curves"
-local newPenWidget = require "tools/pen"
-local newGradientTool = require "tools/gradient"
-local newRectangleTool = require "tools/rectangle"
-local newEllipseTool = require "tools/ellipse"
+local newTransformWidget = require "tools.transform"
+local newCurvesWidget = require "tools.curves"
+local newPenWidget = require "tools.pen"
+local newGradientTool = require "tools.gradient"
+local newRectangleTool = require "tools.rectangle"
+local newEllipseTool = require "tools.ellipse"
 
 local newTransform = require "transform"
 
-local ColorDabs = require "ui/colordabs"
-local ColorWheel = require "ui/colorwheel"
-local Toolbar = require "ui/toolbar"
+local ColorDabs = require "ui.colordabs"
+local ColorWheel = require "ui.colorwheel"
+local Toolbar = require "ui.toolbar"
 
 local boxy = require "boxy"
 local utils = require "ui.utils"

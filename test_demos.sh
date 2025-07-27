@@ -162,12 +162,6 @@ echo ""
 echo -e "${BLUE}📁 Log files created:${NC}"
 ls -la logs/test_output_*.log 2>/dev/null || echo "No log files created"
 
-echo ""
-echo -e "${BLUE}Next steps:${NC}"
-echo "1. Review log files for specific errors"
-echo "2. Update TODO.md with findings"
-echo "3. Prioritize fixes based on demo importance"
-
 # Cleanup option
 echo ""
 read -p "Remove log files? (y/N): " cleanup
