@@ -9,6 +9,7 @@
 -- All rights reserved.
 -- *****************************************************************
 
+
 local function fillGradientData(gradient)
 	local n = gradient.numColors
 
@@ -49,8 +50,9 @@ local function makeSendLUT(feed, shader)
 
 	return function()
 		shader:send("bounds", bounds)
-		shader:send("lutX", lutX, 0, n[0] * floatSize)
-		shader:send("lutY", lutY, 0, n[1] * floatSize)
+		-- Try sending without size parameter - let Love2D determine buffer size
+		shader:send("lutX", lutX)
+		shader:send("lutY", lutY)
 		shader:send("tablemeta", meta)
 	end
 end

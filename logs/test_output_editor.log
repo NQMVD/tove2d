@@ -1,4 +1,4 @@
-LOVE - Warning: tove/init.lua:686: Using deprecated function love.graphics.getCanvasFormats (replaced by love.graphics.getTextureFormats)
+LOVE - Warning: tove/init.lua:688: Using deprecated function love.graphics.getCanvasFormats (replaced by love.graphics.getTextureFormats)
 LOVE - Warning: main.lua:9: Using deprecated field window.highdpi (replaced by t.highdpi in love.conf)
 LOVE - Warning: editor.lua:10: Using deprecated character in require string (forward slashes), use dots instead.
 LOVE - Warning: ui/colorwheel.lua:297: Using deprecated vertex format array values in love.graphics.newMesh (replaced by named table fields 'format' and 'location')

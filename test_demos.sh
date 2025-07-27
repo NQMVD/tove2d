@@ -59,14 +59,59 @@ run_demo() {
   fi
 }
 
+# Show usage if help requested
+if [[ "$1" == "-h" || "$1" == "--help" ]]; then
+  echo "Usage: $0 [demo1] [demo2] ..."
+  echo ""
+  echo "Test TÖVE demos for Love2D 12.0 compatibility"
+  echo ""
+  echo "Arguments:"
+  echo "  demo1, demo2...  Specific demo directory names to test"
+  echo "                   (if none provided, tests all demos with main.lua)"
+  echo ""
+  echo "Examples:"
+  echo "  $0                    # Test all demos"
+  echo "  $0 shaders fillrule   # Test only shaders and fillrule demos"
+  echo "  $0 zoom hearts blob   # Test specific demos for debugging"
+  exit 0
+fi
+
 # Main execution
 echo -e "${BLUE}TÖVE Demo Compatibility Test${NC}"
 echo -e "${BLUE}Testing with Love2D version:${NC}"
 love --version
 echo ""
 
-# Get list of demo directories
-demo_dirs=($(find demos -maxdepth 1 -type d -not -path demos | sort | xargs -n1 basename))
+# Get list of demo directories that contain main.lua
+demo_dirs=()
+
+if [ $# -gt 0 ]; then
+  # Use command line arguments as demo list
+  for demo in "$@"; do
+    if [ -f "demos/$demo/main.lua" ]; then
+      demo_dirs+=("$demo")
+      echo -e "${BLUE}Will test specified demo: $demo${NC}"
+    else
+      echo -e "${RED}⚠️  Skipping '$demo' - no main.lua found in demos/$demo/${NC}"
+    fi
+  done
+  echo ""
+else
+  # Auto-discover all demos with main.lua
+  echo -e "${BLUE}No specific demos specified, auto-discovering all demos...${NC}"
+  for dir in demos/*/; do
+    if [ -f "$dir/main.lua" ]; then
+      demo_dirs+=($(basename "$dir"))
+    fi
+  done
+  echo -e "${BLUE}Found ${#demo_dirs[@]} demos to test${NC}"
+  echo ""
+fi
+
+if [ ${#demo_dirs[@]} -eq 0 ]; then
+  echo -e "${RED}No valid demos found to test!${NC}"
+  exit 1
+fi
 
 # Results tracking
 declare -a working_demos
@@ -89,7 +134,11 @@ done
 
 # Summary report
 echo -e "${BLUE}========================================${NC}"
-echo -e "${BLUE}TESTING SUMMARY${NC}"
+if [ $# -gt 0 ]; then
+  echo -e "${BLUE}TESTING SUMMARY (${#demo_dirs[@]} specified demos)${NC}"
+else
+  echo -e "${BLUE}TESTING SUMMARY (all ${#demo_dirs[@]} demos)${NC}"
+fi
 echo -e "${BLUE}========================================${NC}"
 
 echo -e "${GREEN}✅ Working demos (${#working_demos[@]}):${NC}"

@@ -1,20 +1,20 @@
-LOVE - Warning: tove/init.lua:686: Using deprecated function love.graphics.getCanvasFormats (replaced by love.graphics.getTextureFormats)
+LOVE - Warning: tove/init.lua:688: Using deprecated function love.graphics.getCanvasFormats (replaced by love.graphics.getTextureFormats)
 LOVE - Warning: main.lua:5: Using deprecated character in require string (forward slashes), use dots instead.
-LOVE - Warning: tove/init.lua:2429: Using deprecated vertex input attribute(s) VertexPaint without a 'location' layout qualifier in shader code (replaced by layout(location = #) qualifier for vertex inputs)
-LOVE - Warning: tove/init.lua:1777: Using deprecated vertex format array values in love.graphics.newMesh (replaced by named table fields 'format' and 'location')
-LOVE - Warning: tove/init.lua:1777: Using deprecated vertex format 'name' fields in Meshes and Buffers (replaced by 'location' field containing a binding location number value.)
-Error: tove/init.lua:2075: Size to copy must be greater than 0.
+LOVE - Warning: tove/init.lua:2431: Using deprecated vertex input attribute(s) VertexPaint without a 'location' layout qualifier in shader code (replaced by layout(location = #) qualifier for vertex inputs)
+LOVE - Warning: tove/init.lua:1774: Using deprecated vertex format array values in love.graphics.newMesh (replaced by named table fields 'format' and 'location')
+LOVE - Warning: tove/init.lua:1774: Using deprecated vertex format 'name' fields in Meshes and Buffers (replaced by 'location' field containing a binding location number value.)
+Error: tove/init.lua:2071: Size to copy must be greater than 0.
 stack traceback:
 	[love "boot.lua"]:465: in function <[love "boot.lua"]:461>
 	[C]: in function 'send'
-	tove/init.lua:2075: in function 'endInit'
-	tove/init.lua:2608: in function 'newComputeFeedData'
-	tove/init.lua:2632: in function 'gen'
-	tove/init.lua:3275: in function 'shaders'
-	tove/init.lua:3541: in function 'f'
-	tove/init.lua:3584: in function '_create'
-	tove/init.lua:3117: in function 'cacheKeyFrame'
-	tove/init.lua:3908: in function 'newAnimation'
+	tove/init.lua:2071: in function 'endInit'
+	tove/init.lua:2606: in function 'newComputeFeedData'
+	tove/init.lua:2630: in function 'gen'
+	tove/init.lua:3269: in function 'shaders'
+	tove/init.lua:3535: in function 'f'
+	tove/init.lua:3578: in function '_create'
+	tove/init.lua:3111: in function 'cacheKeyFrame'
+	tove/init.lua:3893: in function 'newAnimation'
 	main.lua:22: in main chunk
 	[C]: in function 'require'
 	[love "boot.lua"]:430: in function <[love "boot.lua"]:159>

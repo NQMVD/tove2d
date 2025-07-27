@@ -1,5 +1,5 @@
-LOVE - Warning: tove/init.lua:686: Using deprecated function love.graphics.getCanvasFormats (replaced by love.graphics.getTextureFormats)
+LOVE - Warning: tove/init.lua:688: Using deprecated function love.graphics.getCanvasFormats (replaced by love.graphics.getTextureFormats)
 LOVE - Warning: main.lua:5: Using deprecated character in require string (forward slashes), use dots instead.
-LOVE - Warning: tove/init.lua:2429: Using deprecated vertex input attribute(s) VertexPaint without a 'location' layout qualifier in shader code (replaced by layout(location = #) qualifier for vertex inputs)
-LOVE - Warning: tove/init.lua:1777: Using deprecated vertex format array values in love.graphics.newMesh (replaced by named table fields 'format' and 'location')
-LOVE - Warning: tove/init.lua:1777: Using deprecated vertex format 'name' fields in Meshes and Buffers (replaced by 'location' field containing a binding location number value.)
+LOVE - Warning: tove/init.lua:2431: Using deprecated vertex input attribute(s) VertexPaint without a 'location' layout qualifier in shader code (replaced by layout(location = #) qualifier for vertex inputs)
+LOVE - Warning: tove/init.lua:1774: Using deprecated vertex format array values in love.graphics.newMesh (replaced by named table fields 'format' and 'location')
+LOVE - Warning: tove/init.lua:1774: Using deprecated vertex format 'name' fields in Meshes and Buffers (replaced by 'location' field containing a binding location number value.)
