@@ -4,9 +4,11 @@
 *.obj
 .sconsign.dblite
 /src/cpp/version.cpp
+/src/thirdparty
 /src/glsl/*.inc
 /godot/tovegd/src
 /lib
 /tove
 .vscode
 /site
+/logs

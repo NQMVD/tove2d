@@ -1,2 +1,0 @@
-LOVE - Warning: tove/init.lua:688: Using deprecated function love.graphics.getCanvasFormats (replaced by love.graphics.getTextureFormats)
-LOVE - Warning: main.lua:5: Using deprecated character in require string (forward slashes), use dots instead.
