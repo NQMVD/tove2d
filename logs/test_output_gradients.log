@@ -1,0 +1,22 @@
+LOVE - Warning: tove/init.lua:686: Using deprecated function love.graphics.getCanvasFormats (replaced by love.graphics.getTextureFormats)
+illegal report level 1
+LOVE - Warning: main.lua:6: Using deprecated character in require string (forward slashes), use dots instead.
+LOVE - Warning: tove/init.lua:2429: Using deprecated vertex input attribute(s) VertexPaint without a 'location' layout qualifier in shader code (replaced by layout(location = #) qualifier for vertex inputs)
+LOVE - Warning: tove/init.lua:1777: Using deprecated vertex format array values in love.graphics.newMesh (replaced by named table fields 'format' and 'location')
+LOVE - Warning: tove/init.lua:1777: Using deprecated vertex format 'name' fields in Meshes and Buffers (replaced by 'location' field containing a binding location number value.)
+Error: tove/init.lua:2000: Size (40) must be a multiple of the uniform's size in bytes (16).
+stack traceback:
+	[love "boot.lua"]:465: in function <[love "boot.lua"]:461>
+	[C]: in function 'send'
+	tove/init.lua:2000: in function '_sendUniforms'
+	tove/init.lua:2362: in function 'endInit'
+	tove/init.lua:2609: in function 'newComputeFeedData'
+	tove/init.lua:2632: in function 'gen'
+	tove/init.lua:3275: in function 'shaders'
+	tove/init.lua:3541: in function 'f'
+	tove/init.lua:3584: in function '_create'
+	tove/init.lua:3179: in function 'draw'
+	assets/tovedemo.lua:203: in function 'draw'
+	main.lua:52: in function 'draw'
+	[love "callbacks.lua"]:196: in function <[love "callbacks.lua"]:172>
+	[C]: in function 'xpcall'

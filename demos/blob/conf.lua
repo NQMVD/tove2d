@@ -1,6 +1,6 @@
 function love.conf(t)
   t.highdpi = true
-  t.msaa = 8
+  -- t.msaa = 8
   t.window.width = 1280
   t.window.height = 720
   t.window.resizable = true

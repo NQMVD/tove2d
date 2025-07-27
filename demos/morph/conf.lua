@@ -1,7 +1,9 @@
 function love.conf(t)
-	-- setting msaa is important to get antialiased
-	-- results for the mesh renderer. you should not
-	-- set this if you only use gpux renderers.
-
-	t.window.msaa = 2
+  t.highdpi = true
+  t.msaa = 8
+  t.window.width = 1280
+  t.window.height = 720
+  t.window.resizable = true
+  t.window.minwidth = 480
+  t.window.minheight = 360
 end

@@ -1,0 +1,21 @@
+LOVE - Warning: tove/init.lua:686: Using deprecated function love.graphics.getCanvasFormats (replaced by love.graphics.getTextureFormats)
+LOVE - Warning: main.lua:9: Using deprecated field window.highdpi (replaced by t.highdpi in love.conf)
+LOVE - Warning: editor.lua:10: Using deprecated character in require string (forward slashes), use dots instead.
+LOVE - Warning: ui/colorwheel.lua:297: Using deprecated vertex format array values in love.graphics.newMesh (replaced by named table fields 'format' and 'location')
+LOVE - Warning: ui/colorwheel.lua:297: Using deprecated vertex format 'name' fields in Meshes and Buffers (replaced by 'location' field containing a binding location number value.)
+Error: boxy/init.lua:582: assertion failed!
+stack traceback:
+	[love "boot.lua"]:465: in function <[love "boot.lua"]:461>
+	[C]: in function 'assert'
+	boxy/init.lua:582: in function '__init'
+	boxy/init.lua:726: in function 'init'
+	boxy/class.lua:22: in function 'PushButton'
+	ui/utils.lua:22: in function 'makeButtons'
+	ui/toolbar.lua:49: in function 'init'
+	boxy/class.lua:22: in function 'Toolbar'
+	editor.lua:376: in function 'startup'
+	main.lua:36: in function 'load'
+	[love "callbacks.lua"]:166: in function <[love "callbacks.lua"]:165>
+	[C]: in function 'xpcall'
+	[love "boot.lua"]:484: in function <[love "boot.lua"]:469>
+	[C]: in function 'xpcall'

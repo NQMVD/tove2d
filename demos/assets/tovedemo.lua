@@ -11,7 +11,7 @@ local logo = love.graphics.newImage("assets/tovelogo.png", {mipmaps = true})
 logo:setFilter("linear", "linear", 1)
 logo:setMipmapFilter("linear")
 
-love.window.setTitle("")
+-- love.window.setTitle("")
 
 tovedemo = {}
 
